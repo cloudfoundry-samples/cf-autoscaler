@@ -1,0 +1,83 @@
+3<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Worker Automated Scaling Monitor</title>
+		<!-- Le styles -->
+		<link href="assets/css/bootstrap.css" rel="stylesheet">
+		<style>
+			body {
+				padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+			}
+		</style>
+		<link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+		<!-- Include SockJS client library -->
+		<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script src="assets/js/mycharts.js"></script>
+
+		<!-- Establish websocket connection to server and process received messages -->
+		<script type="text/javascript">
+		$(function() {
+
+			var sock = new SockJS("/stats");
+
+			sock.onmessage = function(msg) {
+	   			var msgData = $.parseJSON(msg.data);
+	   			if (!(typeof msgData.workers === "undefined")) {
+		   			document.getElementById('workersCount').innerHTML = msgData.workers;
+		   			workerChart.series[0].points[0].update(msgData.workers);
+	   			}
+	   			if (!(typeof msgData.msgs === "undefined")) {
+		   			document.getElementById('msgCount').innerHTML = msgData.msgs;
+		   			msgChart.series[0].points[0].update(msgData.msgs);
+  	   			}
+	   			if (!(typeof msgData.consumers === "undefined")) {
+		   			document.getElementById('consumerCount').innerHTML = msgData.consumers;
+		   			consumerChart.series[0].points[0].update(msgData.consumers);
+  	   			}
+			};
+
+		});
+		</script>
+	</head>
+
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="navbar-inner">
+	        <div class="container">
+	          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </a>
+	          <a class="brand" href="#">Worker Monitoring Dashboard</a>
+	        </div>
+	      </div>
+	    </div>
+
+		<div class="row">
+			<div class="span4" id="msgGauge" style="width: 33%; height: 300px; margin: 0 auto"></div>
+			<div class="span4" id="consumerGauge" style="width: 33%; height: 300px; margin: 0 auto"></div>
+			<div class="span4" id="workersGauge" style="width: 33%; height: 300px; margin: 0 auto"></div>
+		</div>
+		<div class="row">
+			<div class="span4"style="width: 33%; height: 300px; margin: 0 auto">
+				<h1 id="msgCount" align="center">-</h1>
+			</div>
+			<div class="span4" style="width: 33%; height: 300px; margin: 0 auto">
+				<h1 id="consumerCount" align="center">-</h1>
+			</div>
+			<div class="span4" style="width: 33%; height: 300px; margin: 0 auto">
+				<h1 id="workersCount" align="center">-</h1>
+			</div>
+		</div>
+
+		<script src="assets/js/highcharts/highcharts.js"></script>
+		<script src="assets/js/highcharts/highcharts-more.js"></script>
+		<script src="assets/js/highcharts/modules/exporting.js"></script>
+		<script src="assets/js/bootstrap/bootstrap.js"</script>
+	</body>
+</html>

@@ -1,0 +1,3 @@
+rabbit:
+  queue: monitoring.queue
+  exchange: monitoring.exchange
