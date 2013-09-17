@@ -44,13 +44,6 @@ project(':worker-process') {
   }
 }
 
-project(':producer') {
-    dependencies {
-        compile 'org.cloudfoundry:cloudfoundry-runtime:0.8.5'
-
-    }
-}
-
 project(':monitor') {
     dependencies {
         compile "org.springframework.boot:spring-boot-starter-tomcat:0.5.0.M4"

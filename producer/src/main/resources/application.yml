@@ -1,0 +1,5 @@
+---
+rabbit:
+  queue: work.queue
+  exchange: worker.exchange
+  key: work
