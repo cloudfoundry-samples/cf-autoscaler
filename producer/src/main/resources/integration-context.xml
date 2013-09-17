@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:cloud="http://schema.cloudfoundry.org/spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://schema.cloudfoundry.org/spring http://schema.cloudfoundry.org/spring/cloudfoundry-spring.xsd">
+
+    <bean id="messageProducer" class="com.gopivotal.cf.autoscaling.MessageProducer"/>
+
+    <int:inbound-channel-adapter ref="messageProducer" method="createWorkPackage" channel="toWorkerExchange">
+        <int:poller fixed-rate="1000"/>
+    </int:inbound-channel-adapter>
+
+    <!-- SI Outbound connection to RabbitMQ Broker -->
+
+    <int:channel id="toWorkerExchange"/>
+
+    <int-amqp:outbound-channel-adapter channel="toWorkerExchange"
+                                       amqp-template="amqpTemplate" exchange-name="worker.exchange"
+                                       routing-key="work"/>
+
+    <!-- RabbitMQ Configuration -->
+
+    <rabbit:template id="amqpTemplate" connection-factory="connectionFactory"/>
+    <rabbit:admin connection-factory="connectionFactory"/>
+
+    <rabbit:queue name="work.queue"/>
+
+    <rabbit:direct-exchange name="worker.exchange">
+        <rabbit:bindings>
+            <rabbit:binding queue="work.queue" key="work"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+
+    <beans profile="default">
+        <rabbit:connection-factory id="connectionFactory"/>
+    </beans>
+
+    <beans profile="cloud">
+        <cloud:rabbit-connection-factory id="connectionFactory"/>
+    </beans>
+
+</beans>

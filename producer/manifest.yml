@@ -1,0 +1,15 @@
+---
+applications:
+- name: producer-process
+  memory: 512M
+  instances: 1
+  host: none
+  domain: none
+  path: build/libs/producer.jar
+  buildpack: https://github.com/cloudfoundry/java-buildpack
+  services:
+    cloudamqp-autoscale:
+      label: cloudamqp
+      provider: cloudamqp
+      version: n/a
+      plan: bunny
