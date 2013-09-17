@@ -1,0 +1,16 @@
+---
+cf:
+  applicationName: worker-process
+  target: http://api.run.pivotal.io
+  org: jwatters-org
+  space: autoscale
+autoscaler:
+  maxWorkers: 10
+  minWorkers: 1
+  queueThreshold: 10
+  consumerThreshold: 1
+  workerDelay: 30
+  windowSize: 10
+rabbit:
+  queue: work.queue
+  exchange: monitoring.exchange

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xsi:schemaLocation="http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Monitor queue statistics and number of worker processes once a second and publish to stats channels -->
+    <!-- =================================================================================================== -->
+
+    <int:channel id="queueStats"/>
+
+    <int:inbound-channel-adapter ref="queueMonitor" method="getQueueStatistics" channel="queueStats">
+        <int:poller fixed-rate="1000"/>
+    </int:inbound-channel-adapter>
+
+    <int:channel id="workerStats"/>
+
+    <int:inbound-channel-adapter ref="workerMonitor" method="getWorkerStatistics" channel="workerStats">
+        <int:poller fixed-rate="1000"/>
+    </int:inbound-channel-adapter>
+
+    <int:outbound-channel-adapter channel="queueStats" ref="autoscaler" method="onQueueStats"/>
+    <int:outbound-channel-adapter channel="workerStats" ref="autoscaler" method="onWorkerStats"/>
+
+    <!-- Also publish monitoring data externally for consumption by other monitoring tools -->
+    <!-- ================================================================================= -->
+
+    <int:channel id="jsonWorkerStats"/>
+    <int:channel id="jsonQueueStats"/>
+
+    <int:transformer input-channel="queueStats" output-channel="jsonQueueStats"
+                     expression="'{ &quot;msgs&quot; : ' + payload.size + ', &quot;consumers&quot; : ' + payload.consumers + '}'"/>
+
+    <int:transformer input-channel="workerStats" output-channel="jsonWorkerStats"
+                     expression="'{ &quot;workers&quot; : ' + payload + '}'"/>
+
+    <int-amqp:outbound-channel-adapter channel="jsonQueueStats"
+                                       amqp-template="amqpTemplate" exchange-name="monitoring.exchange"
+                                       routing-key="queues.work.queue"/>
+
+    <int-amqp:outbound-channel-adapter channel="jsonWorkerStats"
+                                       amqp-template="amqpTemplate" exchange-name="monitoring.exchange"
+                                       routing-key="workers.work.queue"/>
+
+</beans>

@@ -1,0 +1,8 @@
+.gradle
+out
+build
+cf-security.yml
+*.ipr
+*.iml
+*.iws
+
