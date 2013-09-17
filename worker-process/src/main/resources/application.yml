@@ -1,0 +1,6 @@
+---
+rabbit:
+  queue: work.queue
+  exchange: worker.exchange
+  key: work
+  workerDelay: 3000
