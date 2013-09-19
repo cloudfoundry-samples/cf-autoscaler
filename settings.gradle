@@ -1,1 +1,1 @@
-include "worker-process", "producer", "autoscaler", "monitor"
+include "worker-process", "producer", "autoscaler", "monitor", "webapp"

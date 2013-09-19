@@ -43,6 +43,12 @@ project(':monitor') {
     }
 }
 
+project(':webapp') {
+    dependencies {
+        compile "org.springframework.boot:spring-boot-starter-tomcat:0.5.0.M4"
+    }
+}
+
 project(':autoscaler') {
     dependencies {
         compile 'org.cloudfoundry:cloudfoundry-client-lib:0.8.8.BUILD-SNAPSHOT', {
