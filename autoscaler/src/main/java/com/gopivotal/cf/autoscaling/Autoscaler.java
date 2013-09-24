@@ -1,6 +1,7 @@
 package com.gopivotal.cf.autoscaling;
 
 import com.gopivotal.cf.autoscaling.monitor.QueueMonitor;
+import com.gopivotal.cf.autoscaling.monitor.ResponseTimeMonitor;
 import com.gopivotal.cf.autoscaling.processmanager.ProcessManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,19 +35,29 @@ public class Autoscaler {
         this.processManager = processManager;
     }
 
-    public void onQueueStats(QueueMonitor.QueueStats stats) {
-        log.info("{ msgs : " + stats.size + " consumers : " + stats.consumers + "}");
+    public void onQueueStats(ResponseTimeMonitor.ResponseTimeStats stats) {
+//        log.info("{ msgs : " + stats.size + " consumers : " + stats.consumers + "}");
+        log.info("{ time : " + stats.time + " } ");
         // don't take action on stats within grace period
         if (!inGracePeriod()) {
-            sampleQueueSize(stats.size);
-            sampleConsumers(stats.consumers);
+//            sampleQueueSize(stats.size);
+//            sampleConsumers(stats.consumers);
+            sampleAverageResponseTime(stats.time);
 
-            if (moreWorkersRequired()) {
-                scaleUp();
-            }
-            if (lessWorkersRequired()) {
-                scaleDown();
-            }
+//            if (moreWorkersRequired()) {
+//                scaleUp();
+//            }
+//            if (lessWorkersRequired()) {
+//                scaleDown();
+//            }
+        }
+    }
+
+    private void sampleAverageResponseTime(double time) {
+        if (time > 0) {
+            log.info("scale up!");
+        } else {
+            log.info("scale down!");
         }
     }
 

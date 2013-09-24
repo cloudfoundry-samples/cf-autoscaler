@@ -30,6 +30,7 @@ public class CloudProfile {
         return new CloudFactory();
     }
 
+    //Kill
     @Bean
     public ConnectionFactory connectionFactory() {
         return cloudFactory().getCloud().getSingletonServiceConnector(ConnectionFactory.class, null);

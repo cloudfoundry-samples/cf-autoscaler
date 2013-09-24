@@ -12,7 +12,14 @@
 
     <int:channel id="queueStats"/>
 
+    <int:channel id="responseTimeStats"/>
+
+
     <int:inbound-channel-adapter ref="queueMonitor" method="getQueueStatistics" channel="queueStats">
+        <int:poller fixed-rate="1000"/>
+    </int:inbound-channel-adapter>
+
+    <int:inbound-channel-adapter ref="responseTimeMonitor" method="getResponseTimeStatistics" channel="responseTimeStats">
         <int:poller fixed-rate="1000"/>
     </int:inbound-channel-adapter>
 

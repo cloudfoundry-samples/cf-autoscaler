@@ -2,6 +2,7 @@ package com.gopivotal.cf.autoscaling.config;
 
 import com.gopivotal.cf.autoscaling.Autoscaler;
 import com.gopivotal.cf.autoscaling.monitor.QueueMonitor;
+import com.gopivotal.cf.autoscaling.monitor.ResponseTimeMonitor;
 import com.gopivotal.cf.autoscaling.monitor.WorkerMonitor;
 import com.gopivotal.cf.autoscaling.processmanager.ProcessManager;
 import org.springframework.amqp.core.TopicExchange;
@@ -41,6 +42,7 @@ public class AppConfig {
         SpringApplication.run(AppConfig.class, args);
     }
 
+    //Kill
     @Bean
     public RabbitTemplate amqpTemplate() {
         return new RabbitTemplate(connectionFactory);
@@ -57,6 +59,11 @@ public class AppConfig {
     }
 
     @Bean
+    public ResponseTimeMonitor responseTimeMonitor() {
+        return new ResponseTimeMonitor();
+    }
+
+    @Bean
     public Autoscaler autoscaler() {
         return new Autoscaler(autoscalerProperties.getMaxWorkers(),
                 autoscalerProperties.getMinWorkers(),
@@ -67,6 +74,7 @@ public class AppConfig {
                 processManager);
     }
 
+    //Kill
     @Bean
     public TopicExchange monitoringExchange() {
         RabbitAdmin admin = new RabbitAdmin(connectionFactory);

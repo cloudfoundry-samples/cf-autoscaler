@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 @Profile("default")
 public class DefaultProfile {
 
+    //Kill
     @Bean
     public ConnectionFactory connectionFactory() {
         return new CachingConnectionFactory("localhost", 5672);
