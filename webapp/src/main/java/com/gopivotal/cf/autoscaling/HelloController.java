@@ -22,7 +22,6 @@ public class HelloController {
     private int maxDelay;
     @Value("${seed}")
     private int seed;
-
     @Autowired
     private Random random;
 
@@ -39,12 +38,13 @@ public class HelloController {
     @ResponseBody
     String home() {
         int delay = random.nextInt(maxDelay);
-        log.info("Sleeping for: " + delay);
+        log.fatal("Sleeping for: " + delay);
         try {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
         }
-        log.info("Servicing request after sleep.");
+        log.fatal("Servicing request after sleep.");
         return "Hello World!";
     }
+
 }

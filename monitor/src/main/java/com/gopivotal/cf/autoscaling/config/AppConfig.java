@@ -39,8 +39,8 @@ public class AppConfig extends SpringBootServletInitializer {
     }
 
     @Override
-    protected Class<?>[] getConfigClasses() {
-        return new Class<?>[]{AppConfig.class};
+    protected Class<?> getConfigClass() {
+        return AppConfig.class;
     }
 
     @Bean

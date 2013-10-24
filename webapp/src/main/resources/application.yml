@@ -1,3 +1,6 @@
 ---
 seed: 42
 maxDelay: 10000
+server:
+  tomcat:
+    maxThreads: 3
