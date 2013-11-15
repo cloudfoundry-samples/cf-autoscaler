@@ -27,9 +27,9 @@ subprojects {
   apply plugin: 'spring-boot'
 
   dependencies {
-      compile 'org.springframework.cloud:core:0.9.1'
-      compile 'org.springframework.cloud:spring-service-connector:0.9.1'
-      compile 'org.springframework.cloud:cloudfoundry-connector:0.9.1'
+      compile 'org.springframework.cloud:core:0.9.3.BUILD-SNAPSHOT'
+      compile 'org.springframework.cloud:spring-service-connector:0.9.3.BUILD-SNAPSHOT'
+      compile 'org.springframework.cloud:cloudfoundry-connector:0.9.3.BUILD-SNAPSHOT'
       compile "org.springframework.boot:spring-boot-starter-actuator:0.5.0.BUILD-SNAPSHOT"
       compile 'com.fasterxml.jackson.core:jackson-databind:2.2.0'
       compile "org.springframework.boot:spring-boot-starter-integration:0.5.0.BUILD-SNAPSHOT"

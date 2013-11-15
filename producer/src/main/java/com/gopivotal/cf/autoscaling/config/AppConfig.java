@@ -1,6 +1,7 @@
 package com.gopivotal.cf.autoscaling.config;
 
 import com.gopivotal.cf.autoscaling.MessageProducer;
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.ChannelCallback;
@@ -47,8 +48,10 @@ public class AppConfig {
         admin.getRabbitTemplate().execute(new ChannelCallback<Object>() {
             @Override
             public Object doInRabbit(Channel channel) throws Exception {
-                channel.queueDeclarePassive(rabbitProperties.getQueue());
-                channel.exchangeDeclarePassive(rabbitProperties.getExchange());
+                channel.exchangeDeclare(rabbitProperties.getExchange(), "direct", true);
+                channel.queueDeclare(rabbitProperties.getQueue(), true, false, false, null);
+//                channel.queueDeclarePassive(rabbitProperties.getQueue());
+//                channel.exchangeDeclarePassive(rabbitProperties.getExchange());
                 channel.queueBind(rabbitProperties.getQueue(), rabbitProperties.getExchange(), rabbitProperties.getKey());
                 return null;
             }

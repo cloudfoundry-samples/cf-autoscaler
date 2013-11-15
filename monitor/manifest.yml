@@ -4,11 +4,11 @@ applications:
   memory: 512M
   instances: 1
   host: autoscale-monitor
-  domain: cfapps.io
-  path: ./build/libs/monitor.jar
+  domain: tempest-stine.com
+  path: build/libs/monitor.jar
   services:
-    cloudamqp-autoscale:
-      label: cloudamqp
-      provider: cloudamqp
-      version: n/a
-      plan: bunny
+    rabbitmq:
+      label: p-rabbitmq
+      provider: pivotal
+      version: '1.0'
+      plan: Standard

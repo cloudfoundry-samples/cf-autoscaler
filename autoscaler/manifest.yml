@@ -1,15 +1,14 @@
 ---
 applications:
-- name: autoscaler-process
+- name: autoscaler
   memory: 512M
   instances: 1
   host: none
   domain: none
   path: build/libs/autoscaler.jar
-  buildpack: https://github.com/cloudfoundry/java-buildpack
   services:
-    cloudamqp-autoscale:
-      label: cloudamqp
-      provider: cloudamqp
-      version: n/a
-      plan: bunny
+    rabbitmq:
+      label: p-rabbitmq
+      provider: pivotal
+      version: '1.0'
+      plan: Standard

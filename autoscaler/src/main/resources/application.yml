@@ -1,9 +1,9 @@
 ---
 cf:
   applicationName: worker-process
-  target: http://api.run.pivotal.io
-  org: jwatters-org
-  space: autoscale
+  target: http://api.tempest-stine.com
+  org: mstine-org
+  space: demo
 autoscaler:
   maxWorkers: 10
   minWorkers: 1
