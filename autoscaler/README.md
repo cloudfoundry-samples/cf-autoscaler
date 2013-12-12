@@ -17,7 +17,4 @@ Once you've verified the correct property values have been set, you can build fr
 
 And then push the application to Cloud Foundry.
 
-NOTE: This component depends on a patched version of `org.cloudfoundry:cloudfoundry-client-lib:0.8.8.BUILD-SNAPSHOT`, for which a PR needs to be submitted.
-
-
 
