@@ -24,7 +24,7 @@ import org.springframework.web.socket.WebSocketHandler;
 @EnableConfigurationProperties(RabbitProperties.class)
 @ComponentScan
 @ImportResource("integration-context.xml")
-public class AppConfig extends SpringBootServletInitializer {
+public class AppConfig {
 
     @Autowired
     private ConnectionFactory connectionFactory;
@@ -36,11 +36,6 @@ public class AppConfig extends SpringBootServletInitializer {
             System.setProperty("spring.profiles.active", "cloud");
         }
         SpringApplication.run(AppConfig.class, args);
-    }
-
-    @Override
-    protected Class<?> getConfigClass() {
-        return AppConfig.class;
     }
 
     @Bean

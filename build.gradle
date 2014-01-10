@@ -53,7 +53,7 @@ project(':webapp') {
 
 project(':autoscaler') {
     dependencies {
-        compile 'org.cloudfoundry:cloudfoundry-client-lib:1.0.1', {
+        compile 'org.cloudfoundry:cloudfoundry-client-lib:1.0.2.BUILD-SNAPSHOT', {
             exclude group: 'org.springframework'
         }
     }

@@ -1,0 +1,22 @@
+---
+memory: 512M
+instances: 1
+host: none
+domain: none
+services:
+  cloudamqp-autoscale:
+    label: cloudamqp
+    provider: cloudamqp
+    version: n/a
+    plan: bunny
+applications:
+- name: worker-process
+  path: worker-process/build/libs/worker-process.jar
+- name: producer-process
+  path: producer/build/libs/producer.jar
+- name: autoscaler-process
+  path: autoscaler/build/libs/autoscaler.jar
+- name: autoscale-monitor
+  host: autoscale-monitor-${random-word}
+  domain: cfapps.io
+  path: monitor/build/libs/monitor.jar
