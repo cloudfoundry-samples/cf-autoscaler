@@ -2,7 +2,7 @@ package com.gopivotal.cf.autoscaling.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(name = "cf", path = "classpath:application.yml")
+@ConfigurationProperties(prefix = "cf", locations = "classpath:application.yml")
 public class CfProperties {
     private String applicationName;
     private String target;

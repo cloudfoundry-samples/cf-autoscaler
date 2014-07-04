@@ -13,7 +13,7 @@ The autoscaler component depends on the Cloud Foundry Java Client Library (https
 1. `git clone git@github.com:cloudfoundry/cf-java-client.git`
 1. `cd cf-java-client`
 1. `git checkout spring4`
-1. `mvn install` (You'll need a recent version of [Apache Maven](http://maven.apache.org/).)
+1. `mvn install` (You'll need a recent version of [Apache Maven](http://maven.apache.org/). You'll also need a [protocol buffer compiler](https://github.com/cloudfoundry/cf-java-client/issues/163).)
 
 Now that we have this in our local Maven repository, we can build the cf-autoscaler components. Before building, we'll make some minor changes to the code:
 

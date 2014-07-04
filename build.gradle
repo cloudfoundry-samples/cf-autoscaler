@@ -1,12 +1,9 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url "http://repo.springsource.org/snapshot" }
-        maven { url "http://repo.springsource.org/milestone" }
     }
-
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:0.5.0.BUILD-SNAPSHOT")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.1.RELEASE")
     }
 }
 
@@ -15,11 +12,10 @@ allprojects {
 
   repositories {
     mavenCentral()
-    mavenLocal()
+  }
 
-    maven { url "http://repo.springsource.org/snapshot" }
-    maven { url "http://repo.springsource.org/milestone" }
-
+  dependencies {
+    versionManagement = 'io.spring.platform:platform-versions:1.0.0.RELEASE@properties'
   }
 }
 
@@ -27,38 +23,39 @@ subprojects {
   apply plugin: 'spring-boot'
 
   dependencies {
-      compile 'org.springframework.cloud:core:0.9.1'
-      compile 'org.springframework.cloud:spring-service-connector:0.9.1'
-      compile 'org.springframework.cloud:cloudfoundry-connector:0.9.1'
-      compile "org.springframework.boot:spring-boot-starter-actuator:0.5.0.BUILD-SNAPSHOT"
-      compile 'com.fasterxml.jackson.core:jackson-databind:2.2.0'
-      compile "org.springframework.boot:spring-boot-starter-integration:0.5.0.BUILD-SNAPSHOT"
-      compile 'org.springframework.integration:spring-integration-amqp:2.2.4.RELEASE'
-      runtime "org.yaml:snakeyaml:1.12"
+      compile 'org.springframework.cloud:spring-cloud-spring-service-connector:1.0.0.RELEASE'
+      compile 'org.springframework.cloud:spring-cloud-cloudfoundry-connector:1.0.0.RELEASE'
+      compile "org.springframework.boot:spring-boot-starter-actuator"
+      compile "org.springframework.boot:spring-boot-starter-integration"
+      compile 'org.springframework.integration:spring-integration-amqp'
   }
 }
 
 project(':monitor') {
     dependencies {
-        compile "org.springframework.boot:spring-boot-starter-tomcat:0.5.0.BUILD-SNAPSHOT"
-        compile "org.springframework.boot:spring-boot-starter-websocket:0.5.0.BUILD-SNAPSHOT"
+        compile "org.springframework.boot:spring-boot-starter-tomcat"
+        compile "org.springframework.boot:spring-boot-starter-websocket"
     }
 }
 
 project(':webapp') {
     dependencies {
-        compile "org.springframework.boot:spring-boot-starter-tomcat:0.5.0.BUILD-SNAPSHOT"
+        compile "org.springframework.boot:spring-boot-starter-tomcat"
     }
 }
 
 project(':autoscaler') {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
     dependencies {
-        compile 'org.cloudfoundry:cloudfoundry-client-lib:1.0.2.BUILD-SNAPSHOT', {
-            exclude group: 'org.springframework'
-        }
+        compile "org.springframework.boot:spring-boot-starter-security"
+        compile 'org.cloudfoundry:cloudfoundry-client-lib:1.0.4.BUILD-SNAPSHOT'
     }
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.6'
+    gradleVersion = '1.12'
 }

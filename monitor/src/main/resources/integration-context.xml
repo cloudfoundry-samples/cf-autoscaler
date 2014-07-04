@@ -12,6 +12,6 @@
     <int-amqp:inbound-channel-adapter channel="monitoringStats" queue-names="monitoring.queue"
                                       connection-factory="connectionFactory"/>
 
-    <int:outbound-channel-adapter channel="monitoringStats" ref="/stats" method="onStatsReceived"/>
+    <int:outbound-channel-adapter channel="monitoringStats" ref="statsHandler" method="onStatsReceived"/>
 
 </beans>

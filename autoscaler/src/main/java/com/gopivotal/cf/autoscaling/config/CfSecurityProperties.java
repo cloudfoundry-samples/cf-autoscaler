@@ -2,7 +2,7 @@ package com.gopivotal.cf.autoscaling.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(path = "classpath:cf-security.yml")
+@ConfigurationProperties(locations = "classpath:cf-security.yml")
 public class CfSecurityProperties {
 
     private String email;

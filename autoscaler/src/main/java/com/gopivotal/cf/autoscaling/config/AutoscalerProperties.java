@@ -2,7 +2,7 @@ package com.gopivotal.cf.autoscaling.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(name = "autoscaler", path = "classpath:application.yml")
+@ConfigurationProperties(prefix = "autoscaler", locations = "classpath:application.yml")
 public class AutoscalerProperties {
     private int maxWorkers;
     private int minWorkers;

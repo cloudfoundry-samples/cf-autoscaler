@@ -2,7 +2,7 @@ package com.gopivotal.cf.autoscaling.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(name = "rabbit", path = "classpath:application.yml")
+@ConfigurationProperties(prefix = "rabbit", locations = "classpath:application.yml")
 public class RabbitProperties {
     private String queue;
     private String exchange;

@@ -10,26 +10,41 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.SpringBootServletInitializer;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.cloud.cloudfoundry.CloudFoundryConnector;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 @Configuration
 @EnableAutoConfiguration
 @EnableConfigurationProperties(RabbitProperties.class)
 @ComponentScan
 @ImportResource("integration-context.xml")
-public class AppConfig {
+@EnableWebSocket
+public class AppConfig extends SpringBootServletInitializer implements WebSocketConfigurer {
 
     @Autowired
     private ConnectionFactory connectionFactory;
     @Autowired
     private RabbitProperties rabbitProperties;
+
+    @Override
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry.addHandler(statsHandler(), "/stats").withSockJS();
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(AppConfig.class);
+    }
 
     public static void main(String[] args) {
         if (new CloudFoundryConnector().isInMatchingCloud()) {
@@ -43,7 +58,7 @@ public class AppConfig {
         return new RabbitTemplate(connectionFactory);
     }
 
-    @Bean(name = "/stats")
+    @Bean
     public WebSocketHandler statsHandler() {
         return new StatsHandler();
     }

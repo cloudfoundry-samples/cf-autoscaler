@@ -1,7 +1,7 @@
 ---
 cf:
   applicationName: worker-process
-  target: http://api.run.pivotal.io
+  target: https://api.run.pivotal.io
   org: jwatters-org
   space: autoscale
 autoscaler:

@@ -1,14 +1,9 @@
 ---
 memory: 512M
 instances: 1
-host: none
-domain: none
+no-route: true
 services:
-  cloudamqp-autoscale:
-    label: cloudamqp
-    provider: cloudamqp
-    version: n/a
-    plan: bunny
+  - cloudamqp-autoscale
 applications:
 - name: worker-process
   path: worker-process/build/libs/worker-process.jar
@@ -17,6 +12,6 @@ applications:
 - name: autoscaler-process
   path: autoscaler/build/libs/autoscaler.jar
 - name: autoscale-monitor
+  no-route: false
   host: autoscale-monitor-${random-word}
-  domain: cfapps.io
   path: monitor/build/libs/monitor.jar
