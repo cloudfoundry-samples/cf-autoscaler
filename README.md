@@ -56,11 +56,9 @@ The project includes a `manifest.yml` file that includes the necessary metadata 
 
 It will also create and bind to these applications a RabbitMQ service provided by [CloudAMQP](http://www.cloudamqp.com/) via the Pivotal Web Services Marketplace. It uses the _Big Bunny_ plan, which is $99 per month, but represents the smallest plan that can provide the necessary connections for this demo (One connection each for the **producer-process** and **autoscaler-process**, plus _n_ connections for the **worker-process** instances. With the current throttling settings, instances usually cycle between one and six instances. By tweaking the settings, you may be able to get away with a _Tough Tiger_ plan at $19/month.). You can learn more about CloudAMQP plans [here](http://www.cloudamqp.com/plans.html).
 
-Using this manifest requires **cf command line v5**. Instructions for obtaining it can be found [here](http://docs.cloudfoundry.com/docs/using/managing-apps/cf/index.html#installing). In addition, a Windows binary can be found [here](https://console.run.pivotal.io/downloads/cf.exe).
-
 Assuming you've installed the CF CLI, from the `cf-autoscaler` directory:
 
-1. `cf target https://api.run.pivotal.io`
+1. `cf api https://api.run.pivotal.io`
 1. `cf login` (Provide your credentials and choose an appropriate organization and space. You'll need a memory quota of around 4 GB.)
 1. `cf push`
 
@@ -76,12 +74,12 @@ You can visit this URL to see the gauges working:
 
 ![Dashboard](docs/images/dashboard.png)
 
-Another useful way to monitor the application is via **cf command line v6**, which supports tailing of application logs via the Cloud Foundry [Loggregator](https://github.com/cloudfoundry/loggregator). You can obtain this CLI at http://cli.cloudfoundry.org. Follow the simple instructions found there to tail the logs for each of the components.
+Another useful way to monitor the application is via the CF CLI, which supports tailing of application logs via the Cloud Foundry [Loggregator](https://github.com/cloudfoundry/loggregator).
 
 Example:
 
 ```
- gcf logs autoscaler-process
+ cf logs autoscaler-process
 Connected, tailing logs for app autoscaler-process in org jwatters-org / space autoscale as mstine@gopivotal.com...
 
 2014-01-10T10:43:13.00-0600 [API]     OUT Created app with guid 0186722f-0843-4111-a96f-8d145195b276
