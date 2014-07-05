@@ -18,7 +18,7 @@ public class CfProcessManager implements ProcessManager {
 
         // login to Cloud Foundry
         CloudCredentials credentials = new CloudCredentials(username, password);
-        this.cfOps = new CloudFoundryClient(credentials, targetUrl, orgName, spaceName);
+        this.cfOps = new CloudFoundryClient(credentials, targetUrl, orgName, spaceName, true);
         this.cfOps.login();
 
         // ensure the process we are monitoring is started
