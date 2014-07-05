@@ -1,0 +1,17 @@
+---
+memory: 512M
+instances: 1
+no-route: true
+services:
+  - rmq-autoscale
+applications:
+- name: worker-process
+  path: worker-process/build/libs/worker-process.jar
+- name: producer-process
+  path: producer/build/libs/producer.jar
+- name: autoscaler-process
+  path: autoscaler/build/libs/autoscaler.jar
+- name: autoscale-monitor
+  no-route: false
+  host: autoscale-monitor-${random-word}
+  path: monitor/build/libs/monitor.jar
