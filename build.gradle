@@ -7,15 +7,11 @@ buildscript {
     }
 }
 
-allprojects { 
+allprojects {
   apply plugin: 'idea'
 
   repositories {
     mavenCentral()
-  }
-
-  dependencies {
-    versionManagement = 'io.spring.platform:platform-versions:1.0.0.RELEASE@properties'
   }
 }
 
@@ -23,11 +19,13 @@ subprojects {
   apply plugin: 'spring-boot'
 
   dependencies {
-      compile 'org.springframework.cloud:spring-cloud-spring-service-connector:1.0.0.RELEASE'
-      compile 'org.springframework.cloud:spring-cloud-cloudfoundry-connector:1.0.0.RELEASE'
+      compile 'org.springframework.cloud:spring-cloud-spring-service-connector'
+      compile 'org.springframework.cloud:spring-cloud-cloudfoundry-connector'
       compile "org.springframework.boot:spring-boot-starter-actuator"
       compile "org.springframework.boot:spring-boot-starter-integration"
       compile 'org.springframework.integration:spring-integration-amqp'
+
+      versionManagement 'io.spring.platform:platform-versions:1.0.0.RELEASE@properties'
   }
 }
 
